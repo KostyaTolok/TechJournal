@@ -1,6 +1,5 @@
 from rest_framework import serializers
-
-from news.models import NewsItem
+from news.models import *
 
 
 class NewsItemDetailSerializer(serializers.ModelSerializer):
@@ -13,7 +12,9 @@ class NewsItemDetailSerializer(serializers.ModelSerializer):
 
 
 class NewsItemListSerializer(serializers.ModelSerializer):
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = NewsItem
-        fields = ("id", "headline", "content", "created_at")
+        fields = ("id", "headline", "content", "created_at", "updated_at", "author", "category")
         read_only_fields = ("created_at", "updated_at")

@@ -20,5 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/news/', include("news.urls")),
     path('api/v1/users/', include("users.urls")),
+    path('api/v1/comments/', include("comments.urls")),
+    path('api/v1/categories/', include("categories.urls")),
+    path('api/v1/auth/', include("jwt_auth.urls")),
     path('api/v1/base-auth/', include("rest_framework.urls")),
 ]

@@ -6,4 +6,4 @@ User = get_user_model()
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
-    name = models.CharField(verbose_name="Имя пользователя", max_length=255)
+    image = models.ImageField(verbose_name="Изображение пользователя", upload_to="users/", blank=True)
