@@ -11,3 +11,4 @@ class UsersList(APIView):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
+
