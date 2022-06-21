@@ -3,15 +3,18 @@ import userIcon from '../images/user-icon.jpg';
 import logoutIcon from '../images/logout.png';
 import AuthContext from "../context/AuthContext";
 import ErrorsList from "../components/ErrorsList";
+import ReactTooltip from "react-tooltip";
 
 function ProfilePage() {
     const {accessToken, logoutUser} = useContext(AuthContext);
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
-        image: '',
     });
     const [errors, setErrors] = useState([]);
+    const [username, setUsername] = useState('');
+    const [currentImage, setCurrentImage] = useState('');
+    const [currentImageFile, setCurrentImageFile] = useState(null);
 
     useEffect(() => {
         async function loadUserInfo() {
@@ -24,7 +27,9 @@ function ProfilePage() {
             });
             const data = await response.json();
             if (response.status === 200) {
-                setUserInfo({username: data.user.username, email: data.user.email, image: data.image});
+                setUserInfo({username: data.user.username, email: data.user.email});
+                setUsername(data.user.username)
+                setCurrentImage(data.image);
             } else {
                 console.log(data.detail);
             }
@@ -40,6 +45,27 @@ function ProfilePage() {
         });
     }
 
+    async function handleAddImage(event) {
+        event.preventDefault();
+        let fileTypes = ['image/png', 'image/jpeg', "image/jpg"];
+        let currentFiles = event.target.files;
+        let tempErrors = [];
+        if (currentFiles.length === 0) {
+            tempErrors.push("Изображение пользователя не выбрано");
+        } else if (!fileTypes.includes(currentFiles[0].type)) {
+            tempErrors.push("Неверный формат изображения");
+        } else if (currentFiles[0].size > 1000000) {
+            tempErrors.push("Размер изображения превышает 1 мб");
+        }
+        if (tempErrors.length > 0) {
+            setErrors(tempErrors);
+        } else {
+            let tempImage = URL.createObjectURL(currentFiles[0]);
+            setCurrentImage(tempImage);
+            setCurrentImageFile(currentFiles[0]);
+        }
+    }
+
     async function handleSubmit(event) {
         event.preventDefault();
         setErrors([]);
@@ -53,23 +79,24 @@ function ProfilePage() {
         if (tempErrors.length > 0) {
             setErrors(tempErrors);
         } else {
+            const formData = new FormData();
+            if (userInfo.username !== username) {
+                formData.append('user.username', userInfo.username);
+            }
+            formData.append('user.email', userInfo.email);
+            if (currentImageFile) {
+                formData.append('image', currentImageFile, currentImageFile.name);
+            }
             let response = await fetch('http://127.0.0.1:8000/api/v1/auth/profile/', {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + accessToken
                 },
-                body: JSON.stringify({
-                    image: userInfo.image, user: {
-                        username: userInfo.username,
-                        email: userInfo.email
-                    }
-                })
+                body: formData
             });
-            const data = await response.json();
             if (response.status === 200) {
-                setUserInfo({username: data.user.username, email: data.user.email, image: data.image});
                 alert('Данные успешно обновлены');
+                setUsername(userInfo.username)
             } else {
                 setErrors(["Ошибка при обновлении профиля"]);
             }
@@ -81,9 +108,17 @@ function ProfilePage() {
         <div className="container">
             <div className="row">
                 <div className="col-md-3 border-end text-center">
-                    <img className="rounded-circle mt-5 user-image"
-                         src={userInfo.image ? userInfo.image : userIcon}
-                         alt="User"/>
+                    <form encType="multipart/form-data">
+                        <label data-tip="Выбрать изображение" data-for="image-tooltip"
+                               htmlFor="image" style={{cursor: "pointer"}}>
+                            <input id="image" type="file" onChange={handleAddImage}
+                                   accept=".jpg, .jpeg, .png" hidden/>
+                            <img className="rounded-circle mt-5 user-image"
+                                 src={currentImage ? currentImage : userIcon}
+                                 alt="User"/>
+                        </label>
+                        <ReactTooltip id="image-tooltip" place="bottom" type="dark" effect="solid"/>
+                    </form>
                     <h5 className="mt-3">{userInfo.username}</h5>
                     <p className="text-black-50 mt-3">{userInfo.email}</p>
                 </div>

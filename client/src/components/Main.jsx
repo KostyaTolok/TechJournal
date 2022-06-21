@@ -9,6 +9,13 @@ import ProfilePage from "../pages/ProfilePage";
 import NewsItemsList from "../pages/NewsItemsList";
 import NewsItemDetail from "../pages/NewsItemDetail";
 import AdminRoute from "../utils/AdminRoute";
+import AdminPage from "../pages/admin/AdminPage";
+import AdminNewsList from "../pages/admin/AdminNewsList";
+import AdminNewsItemDetail from "../pages/admin/AdminNewsItemDetail";
+import AdminUsersList from "../pages/admin/AdminUsersList";
+import AdminUserDetail from "../pages/admin/AdminUserDetail";
+import AdminCategoriesList from "../pages/admin/AdminCategoriesList";
+import AdminCategoryDetail from "../pages/admin/AdminCategoryDetail";
 
 function Main() {
     return (
@@ -25,7 +32,15 @@ function Main() {
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/profile" element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
                     <Route path="/admin" element={<AdminRoute/>}>
-                        <Route index element={<NewsItemsList/>}/>
+                        <Route index element={<AdminPage/>}/>
+                        <Route path="news" element={<AdminNewsList/>}/>
+                        <Route path="news/:id" element={<AdminNewsItemDetail/>}/>
+                        <Route path="news/create" element={<AdminNewsItemDetail/>}/>
+                        <Route path="users" element={<AdminUsersList/>}/>
+                        <Route path="users/:id" element={<AdminUserDetail/>}/>
+                        <Route path="categories" element={<AdminCategoriesList/>}/>
+                        <Route path="categories/:id" element={<AdminCategoryDetail/>}/>
+                        <Route path="categories/create" element={<AdminCategoryDetail/>}/>
                     </Route>
                 </Routes>
             </main>

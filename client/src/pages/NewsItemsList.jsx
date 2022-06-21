@@ -1,25 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {useOutletContext} from "react-router";
 import {Link, useParams} from "react-router-dom";
+import NewsItemsApi from "../api/NewsItemsApi";
 
 
 function NewsItemsList() {
     const [newsItems, setNewsItems] = useState([]);
     const params = useParams();
     const categorySlug = params.category;
+    const api = new NewsItemsApi();
 
     useEffect(() => {
         loadNewsItems(categorySlug);
     }, [categorySlug]);
 
     async function loadNewsItems(category) {
-        let response = await fetch(`http://127.0.0.1:8000/api/v1/news/list${category ? "?category=" + category : ''}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+        let response = await api.getNewsItems(category);
         const data = await response.json();
         if (response.status === 200) {
             setNewsItems(data);

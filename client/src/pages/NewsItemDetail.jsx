@@ -1,21 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import CommentsList from "../components/CommentsList";
+import NewsItemsApi from "../api/NewsItemsApi";
 
 function NewsItemDetail() {
     const [newsItem, setNewsItem] = useState({});
     const params = useParams();
     const newsItemId = params.id;
+    const api = new NewsItemsApi();
 
     async function loadNewsItem() {
-        let response = await fetch(`http://127.0.0.1:8000/api/v1/news/detail/${newsItemId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }, (error) => {
-            console.log(error);
-        });
+        let response = await api.getNewsItem(newsItemId);
         const data = await response.json();
         if (response.status === 200) {
             setNewsItem(data);

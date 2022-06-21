@@ -9,7 +9,7 @@ function Sidebar() {
     }, []);
 
     async function loadCategories() {
-        let response = await fetch('http://127.0.0.1:8000/api/v1/categories/', {
+        let response = await fetch('http://127.0.0.1:8000/api/v1/categories/list', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

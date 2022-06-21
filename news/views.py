@@ -5,7 +5,7 @@ from news.serializers import *
 
 
 class NewsList(generics.ListCreateAPIView):
-    serializer_class = NewsItemSerializer
+    serializer_class = NewsListSerializer
 
     def get_queryset(self):
         queryset = NewsItem.objects.all()
@@ -23,9 +23,21 @@ class CreateNewsItem(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
 
 
-class NewsItemDetail(generics.RetrieveUpdateDestroyAPIView):
+class NewsItemDetail(generics.RetrieveAPIView):
     serializer_class = NewsItemSerializer
     queryset = NewsItem.objects.all()
+
+
+class UpdateNewsItem(generics.UpdateAPIView):
+    serializer_class = NewsItemSerializer
+    queryset = NewsItem.objects.all()
+    permission_classes = (IsAdminUser,)
+
+
+class DestroyNewsItem(generics.DestroyAPIView):
+    serializer_class = NewsItemSerializer
+    queryset = NewsItem.objects.all()
+    permission_classes = (IsAdminUser,)
 
 
 

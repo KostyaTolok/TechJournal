@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from users.models import User, UserProfile
+from users.serializers import UserSerializer
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -36,18 +37,22 @@ class RegisterSerializer(serializers.ModelSerializer):
         return instance
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'is_staff')
+        fields = ('username', 'email')
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserInfoSerializer()
 
     class Meta:
         model = UserProfile
-        fields = ('id', 'image', 'user')
+        fields = ('id', 'user', 'image')
+
+    def get_photo_url(self, obj):
+        request = self.context.get('request')
+        return request.build_absolute_uri(obj.image.url)
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')

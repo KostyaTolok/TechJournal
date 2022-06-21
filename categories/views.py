@@ -9,11 +9,23 @@ class CreateCategory(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
 
 
-class CategoryList(generics.ListCreateAPIView):
+class CategoryList(generics.ListAPIView):
     serializer_class = CategoriesListSerializer
     queryset = Category.objects.all()
 
 
-class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+class CategoryDetail(generics.RetrieveAPIView):
+    serializer_class = CategoryDetailSerializer
+    queryset = Category.objects.all()
+
+
+class CategoryUpdate(generics.UpdateAPIView):
+    permission_classes = (IsAdminUser,)
+    serializer_class = CategoryDetailSerializer
+    queryset = Category.objects.all()
+
+
+class CategoryDelete(generics.DestroyAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = CategoryDetailSerializer
     queryset = Category.objects.all()
