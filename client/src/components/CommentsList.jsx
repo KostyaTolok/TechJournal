@@ -3,21 +3,16 @@ import userIcon from '../images/user-icon.jpg';
 import deleteIcon from '../images/delete.png';
 import AuthContext from "../context/AuthContext";
 import ReactTooltip from "react-tooltip";
+import CommentsApi from "../api/CommentsApi";
 
 function CommentsList(props) {
     const {accessToken, user} = useContext(AuthContext);
     const [comments, setComments] = useState([]);
     const newsItemId = props.newsItemId;
+    const api = new CommentsApi();
 
     async function loadComments() {
-        let response =
-            await fetch(`http://127.0.0.1:8000/api/v1/comments/list${newsItemId ? "?news_item=" + newsItemId : ''}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
+        let response = await api.getComments(newsItemId);
         const data = await response.json();
         if (response.status === 200) {
             setComments(data);
@@ -32,18 +27,7 @@ function CommentsList(props) {
 
     async function addComment(event) {
         event.preventDefault();
-        let response = await fetch(`http://127.0.0.1:8000/api/v1/comments/create`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + accessToken
-                },
-                body: JSON.stringify({
-                    news_item: newsItemId,
-                    text: event.target.text.value,
-                })
-            });
+        let response = await api.addComment({news_item: newsItemId, text: event.target.text.value}, accessToken);
         const data = await response.json();
         if (response.status === 201) {
             setComments([data, ...comments]);
@@ -54,14 +38,7 @@ function CommentsList(props) {
     }
 
     async function deleteComment(commentId) {
-        let response = await fetch(`http://127.0.0.1:8000/api/v1/comments/${commentId}`,
-            {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + accessToken
-                }
-            });
+        let response = await api.deleteComment(commentId, accessToken);
         if (response.status === 204) {
             setComments(comments.filter(comment => comment.id !== commentId));
         } else {
