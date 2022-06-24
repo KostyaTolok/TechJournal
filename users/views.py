@@ -25,5 +25,3 @@ class ChangeUserStatus(APIView):
         user.is_active = not user.is_active
         user.save()
         return Response(status=200)
-
-

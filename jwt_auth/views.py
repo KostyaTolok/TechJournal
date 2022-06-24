@@ -37,14 +37,3 @@ class Profile(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'message': 'Profile updated'})
-
-
-class ProfileImage(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def put(self, request):
-        user = request.user
-        user_profile = UserProfile.objects.filter(user=user).first()
-        user_profile.image = request.data['image']
-        user_profile.save()
-        return Response({'message': 'Image updated'})
