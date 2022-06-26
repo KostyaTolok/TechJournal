@@ -1,7 +1,5 @@
-import React, {useState, useContext, useEffect} from 'react';
-import AuthContext from "../context/AuthContext";
+import React from 'react';
 import Sidebar from "../components/Sidebar";
-import NewsItemsList from "./NewsItemsList";
 import {Outlet} from "react-router";
 
 function HomePage() {

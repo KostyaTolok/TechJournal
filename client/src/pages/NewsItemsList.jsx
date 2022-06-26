@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useOutletContext} from "react-router";
 import {Link, useParams} from "react-router-dom";
 import NewsItemsApi from "../api/NewsItemsApi";
 
@@ -41,7 +40,7 @@ function NewsItemsList() {
                             <div className="card-img-overlay">
                                 <h5 className="card-title">{newsItems[0]?.headline}</h5>
                                 <small className="card-text">{newsItems[0]?.created_at}</small>
-                                <p className="card-text">{newsItems[0]?.content}</p>
+                                <p className="card-text news-description">{newsItems[0]?.content}</p>
                             </div>
                         </div>
                     </Link>

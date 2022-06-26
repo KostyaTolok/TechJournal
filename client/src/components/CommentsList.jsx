@@ -27,12 +27,16 @@ function CommentsList(props) {
 
     async function addComment(event) {
         event.preventDefault();
-        let response = await api.addComment({news_item: newsItemId, text: event.target.text.value}, accessToken);
-        const data = await response.json();
-        if (response.status === 201) {
-            setComments([data, ...comments]);
+        if (user) {
+            let response = await api.addComment({news_item: newsItemId, text: event.target.text.value}, accessToken);
+            const data = await response.json();
+            if (response.status === 201) {
+                setComments([data, ...comments]);
+            } else {
+                console.log("Ошибка при добавлении комментария: " + data.detail);
+            }
         } else {
-            console.log("Ошибка при добавлении комментария: " + data.detail);
+            alert("Для добавления комментария необходимо авторизоваться");
         }
         event.target.text.value = '';
     }
@@ -57,8 +61,8 @@ function CommentsList(props) {
                 <div key={comment.id} className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column mb-3">
                         <div className="d-flex flex-row">
-                            <img className="rounded-circle" alt="User"
-                                 src={comment.author.image ?? userIcon} width="50" height="50"/>
+                            <img className="rounded-circle comment-image" alt="User"
+                                 src={comment.image ?? userIcon} width="50" height="50"/>
                             <div className="d-flex flex-column justify-content-start ms-2">
                                 <span className="d-block font-weight-bold">{comment.author.username}</span>
                                 <small className="text-muted">{comment.created_at}</small>

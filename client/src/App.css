@@ -98,6 +98,10 @@ main {
     position: fixed;
 }
 
+.comment-image {
+    object-fit: cover;
+}
+
 .delete-btn {
     width: 15px;
     height: 15px;

@@ -1,7 +1,9 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from TechJournal.permissions import IsOwnerOrReadOnly
+from rest_framework.response import Response
+
 from comments.models import Comment
+from comments.permissions import IsOwnerOrAdmin
 from comments.serializers import CommentSerializer
 
 
@@ -27,8 +29,13 @@ class CommentsList(generics.ListCreateAPIView):
         queryset = queryset.order_by('-created_at')
         return queryset
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsOwnerOrAdmin,)
