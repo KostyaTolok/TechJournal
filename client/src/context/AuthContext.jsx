@@ -84,7 +84,7 @@ export function AuthContextProvider({children}) {
                 refreshTokens().then(() => setLoading(false));
             }
 
-            let updateTime = 1000 * 60 * 90;
+            let updateTime = 1000 * 60 * 14;
 
             let interval = setInterval(() => {
                 if (accessToken && refreshToken) {
