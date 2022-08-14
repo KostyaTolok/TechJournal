@@ -11,6 +11,9 @@ function CategoriesSelect(props) {
         const data = await response.json();
         if (response.status === 200) {
             setCategories(data);
+            if (data.length > 0 && props.categoryId <= 0) {
+                props.setNewsItemCategory(data[0].id);
+            }
         } else {
             console.log(data.detail);
         }
@@ -24,7 +27,7 @@ function CategoriesSelect(props) {
         <>
             {!loading ?
                 <select defaultValue={props.categoryId} className="form-select" name="category"
-                        onChange={props.handleChange}>
+                        onChange={event => props.setNewsItemCategory(event.target.value)}>
                     {categories.map(category =>
                         <option key={category.id} value={category.id}>
                             {category.name}

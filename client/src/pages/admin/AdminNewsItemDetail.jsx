@@ -37,6 +37,10 @@ function AdminNewsItemDetail(props) {
         setNewsItem({...newsItem, [event.target.name]: event.target.value});
     }
 
+    async function setNewsItemCategory(categoryId) {
+        setNewsItem({...newsItem, category: categoryId});
+    }
+
     useEffect(() => {
         loadNewsItem().then(() => setLoading(false));
     }, []);
@@ -70,6 +74,9 @@ function AdminNewsItemDetail(props) {
         }
         if (newsItem.content === '') {
             tempErrors.push("Текст новости не заполнен");
+        }
+        if (newsItem.category <= 0) {
+            tempErrors.push("Категория новости не выбрана");
         }
         if (tempErrors.length > 0) {
             setErrors(tempErrors);
@@ -125,7 +132,7 @@ function AdminNewsItemDetail(props) {
                 <div className="form-group mb-3">
                     <label className="form-label" htmlFor="category">Категория:</label>
                     {!loading ? <CategoriesSelect name="category" categoryId={newsItem.category}
-                                                  handleChange={handleChange}/> : null}
+                                                  setNewsItemCategory={setNewsItemCategory}/> : null}
                 </div>
                 <img className="img-fluid pt-3 pb-3" alt="News" src={newsItem.image}/>
                 <div className="form-group mb-3">
