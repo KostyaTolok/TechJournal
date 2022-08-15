@@ -5,7 +5,11 @@
 - Сервер
 - База данных
 
-Для создания серверной части использовался Python и Django. Для создания API использовался Rest Framework. При разработке авторизации использовался JWT (JSON Web Token) и пакет Simple JWT. Серверная часть состоит из следующих приложений: [news](news/), [categories](categories/), [comments](comments/), [jwt_auth](jwt_auth/), [users](users/). Настройка сервера производится в файле [settings.py](TechJournal/settings.py)
+Для создания серверной части использовался Python и Django. Для создания API использовался Rest Framework.
+
+При разработке авторизации использовался JWT (JSON Web Token) и пакет Simple JWT. Для JWT токенов установлен временной отрезок жизни после чего они становятся недействительны. Для обновления токенов используется refresh токен. После использования refresh токена он также заносится в черный список.
+
+Серверная часть состоит из следующих приложений: [news](news/), [categories](categories/), [comments](comments/), [jwt_auth](jwt_auth/), [users](users/). Настройка сервера производится в файле [settings.py](TechJournal/settings.py)
 
 [Клиентская часть](client/) разработана с помощью библиотеки React. В качастве базы данных был использован Postgresql.
 
