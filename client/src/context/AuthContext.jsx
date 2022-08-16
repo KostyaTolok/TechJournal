@@ -1,16 +1,17 @@
 import React, {createContext, useEffect, useState} from "react";
 import jwtDecode from "jwt-decode";
 import {useNavigate} from "react-router-dom";
+import {useCookies} from "react-cookie";
 
 const AuthContext = createContext();
 
 export default AuthContext;
 
 export function AuthContextProvider({children}) {
-    const [accessToken, setAccessToken] = useState(() => localStorage.getItem("access") ?? null);
-    const [refreshToken, setRefreshToken] = useState(() => localStorage.getItem("refresh") ?? null);
-    const [user, setUser] = useState(() => localStorage.getItem('access')
-        ? jwtDecode(localStorage.getItem('access')) : null);
+    const [cookies, setCookie, removeCookies] = useCookies(['access', 'refresh']);
+    const [accessToken, setAccessToken] = useState(() => cookies.access ?? null);
+    const [refreshToken, setRefreshToken] = useState(() => cookies.refresh ?? null);
+    const [user, setUser] = useState(() => cookies.access ? jwtDecode(cookies.access) : null);
     let [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -47,8 +48,8 @@ export function AuthContextProvider({children}) {
         setAccessToken(null);
         setRefreshToken(null);
         setUser(null);
-        localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
+        removeCookies('access');
+        removeCookies('refresh');
         navigate('/');
     }
 
@@ -73,8 +74,14 @@ export function AuthContextProvider({children}) {
         setAccessToken(access);
         setRefreshToken(refresh);
         setUser(jwtDecode(access));
-        localStorage.setItem('access', access);
-        localStorage.setItem('refresh', refresh);
+        if (cookies.access) {
+            removeCookies('access');
+        }
+        if (cookies.refresh) {
+            removeCookies('refresh');
+        }
+        setCookie('access', access, {expires: new Date(jwtDecode(access).exp * 1000), sameSite: true});
+        setCookie('refresh', refresh, {expires: new Date(jwtDecode(refresh).exp * 1000), sameSite: true});
     }
 
     useEffect(() => {
