@@ -16,8 +16,8 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, username, password=None):
-        user = self.create_user(email="admin@gmail.com", username=username, password=password)
+    def create_superuser(self, email, username, password=None):
+        user = self.create_user(email=email, username=username, password=password)
 
         user.is_admin = True
         user.save(using=self._db)
@@ -28,7 +28,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    email = models.EmailField(verbose_name="Email пользователя", max_length=40, unique=True)
+    email = models.EmailField(verbose_name="Email пользователя", max_length=40)
     username = models.CharField(verbose_name="Имя пользователя", max_length=40, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -36,7 +36,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'username']
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
         return self.email
