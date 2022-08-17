@@ -21,7 +21,7 @@ JWT_SECRET_KEY = env('JWT_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', '0.0.0.0']
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', '0.0.0.0', 'tech-journal-app.herokuapp.com']
 
 # Application definition
 
@@ -100,8 +100,7 @@ ROOT_URLCONF = 'TechJournal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -166,6 +165,9 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static'),
+]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/images/'
 
