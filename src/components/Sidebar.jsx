@@ -1,20 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
+import CategoriesApi from "../api/CategoriesApi";
 
 function Sidebar() {
     const [categories, setCategories] = useState([]);
-
+    const api = new CategoriesApi();
     useEffect(() => {
         loadCategories();
     }, []);
 
     async function loadCategories() {
-        let response = await fetch('http://127.0.0.1:8000/api/v1/categories/list', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        let response = await api.getCategories();
         const data = await response.json();
         if (response.status === 200) {
             setCategories(data);
