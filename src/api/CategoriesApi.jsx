@@ -22,7 +22,7 @@ export default class CategoriesApi {
     }
 
     async createCategory(data, accessToken) {
-        return await fetch(`${this.url}/categories/create`, {
+        return await fetch(`${this.url}/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
