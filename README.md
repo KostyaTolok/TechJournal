@@ -1,83 +1,85 @@
 # TechJournal
-Проект представлет собой собой сайт, позволяющий пользователям просматривать новости, рассортированные по категориям и оставлять комментарии.
-Архитектура веб-приложения состоит из трех основных компонентов:
-- Клиент
-- Сервер
-- База данных
+The project is a website that allows users to view news sorted into categories and leave comments
+The architecture of a web application consists of three main components:
+- Client
+- Server
+- Database
 
-Для создания серверной части использовался Python и Django. Для создания API использовался Rest Framework.
+Python and Django were used to create the server side. Rest Framework was used to create the API. When developing authorization, JWT (JSON Web Token) and the Simple JWT package were used.
 
-При разработке авторизации использовался JWT (JSON Web Token) и пакет Simple JWT. Для JWT токенов установлен временной отрезок жизни после чего они становятся недействительны. Для обновления токенов используется refresh токен. После использования refresh токена он также заносится в черный список.
+The backend consists of the following applications: [news](news/), [categories](categories/), [comments](comments/), [jwt_auth](jwt_auth/), [users](users/). The server is configured in a file [settings.py](TechJournal/settings.py)
 
-Серверная часть состоит из следующих приложений: [news](news/), [categories](categories/), [comments](comments/), [jwt_auth](jwt_auth/), [users](users/). Настройка сервера производится в файле [settings.py](TechJournal/settings.py)
+[Client part](client/) developed with the React library. Postgresql was used as the database
 
-[Клиентская часть](client/) разработана с помощью библиотеки React. В качастве базы данных был использован Postgresql.
+A Docker compose file was developed for the application, which allows you to run all three main components of the application in separate containers.
 
-Для приложения был разработан файл Docker compose, который позволяет запустить все три основых компонента приложения в отдельных контейнерах.
+## Install with Docker compose
 
-## Главная
+  **1. Install Docker and Docker compose**
 
-При входе на сайт открывается главная страница со списком всех новостей и списком категорий.
+## Main page
+
+When you enter the site, the main page opens with a list of all news and a list of categories.
 
 ![Main-page](screenshots/main.jpg)
 
-При нажатии на категорию в списке всех новостей отображаются новости, принадлежащие данной категории.
+When you click on a category in the list of all news, the news belonging to this category is displayed.
 
 ![Category](screenshots/category.jpg)
 
 ## Просмотр новости
 
-При нажатии на новость отображается страница просмотра новости. На ней отображены изображение новости, текст новости и список комментариев
-под новостью. Для того чтобы оставить комментарий требуется войти в аккаунт.
+When you click on the news, the page for viewing the news is displayed. It displays the image of the news, the text of the news and the list of comments
+under the news. You must be logged in to leave a comment.
 
 ![News-view](screenshots/news-view.jpg)
 
-## Оставление комментария
+## Leaving a comment
 
 ![Comment](screenshots/news-view-2.jpg)
 
-## Вход в аккаунт
+## Login page
 
-На странице входа в аккаунт требуется ввести логин и пароль пользователя.
+The login page requires you to enter your username and password.
 
 ![Login](screenshots/login.jpg)
 
-## Страница регистрации
+## Registration Page
 
-Если у пользователя нет аккаунта, то требуется перейти на страницу регистрации где нужно ввести логин, email и пароль.
+If the user does not have an account, then you need to go to the registration page where you need to enter your login, email and password.
 
 ![Register](screenshots/register.jpg)
 
-## Личный кабинет
+## Profile
 
-После входа в аккаунт появляется доступ к личному кабинету пользователя. В личном кабинете можно изменить логин и email, а также загрузить
-изображение пользователя.
+After logging into the account, access to the user's profile appears. In your profile, you can change your login and email, as well as upload
+user image.
 
 ![Profile](screenshots/profile.jpg)
 
-## Страница администрирования
+## Administration Page
 
-Администратор имеет доступ к странице администрирования. На странице администрирования отображается список всех новостей, категорий и пользователей.
-Также она позволяет редактировать, удалять и добавлять новости и категории. Администратор также может блокировать пользователей от входа в аккаунт.
+The administrator has access to the administration page. The administration page displays a list of all news, categories and users.
+It also allows you to edit, delete and add news and categories. The administrator can also block users from logging into the account.
 
 ![Admin](screenshots/admin-main.jpg)
 
-## Список новостей
+## News list
 
 ![News-list](screenshots/admin-news-1.jpg)
 
-## Страница добавления и редактирования новости
+## Page for adding and editing news
 
-На странице добавления или редактирования новости необходимо ввести заголовок новости, текст новости и выбрать категорию новости.
-Также необходимо загрузить изображение новости.
+On the page for adding or editing news, you must enter the news title, news text and select the news category.
+You also need to upload an image of the news.
 
 ![Add-news](screenshots/admin-news-2.jpg)
 
 ![Add-news](screenshots/admin-news-3.jpg)
 
-## Страница администрования пользователя
+## User administration page
 
-Страница редактирования пользователя позволяет администратору просматривать информацию о пользователе и блокировать
-аккаунты пользователей.
+The user edit page allows the administrator to view user information and block
+user accounts.
 
 ![Users](screenshots/admin-user.jpg)
