@@ -6,7 +6,7 @@ import ErrorsList from "../components/ErrorsList";
 import ReactTooltip from "react-tooltip";
 
 function ProfilePage() {
-    const {accessToken, logoutUser} = useContext(AuthContext);
+    const {logoutUser, getUserProfile, changeUserProfile} = useContext(AuthContext);
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
@@ -18,13 +18,7 @@ function ProfilePage() {
 
     useEffect(() => {
         async function loadUserInfo() {
-            const response = await fetch('http://127.0.0.1:8000/api/v1/auth/profile/', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + accessToken
-                }
-            });
+            const response = await getUserProfile();
             const data = await response.json();
             if (response.status === 200) {
                 setUserInfo({username: data.user.username, email: data.user.email});
@@ -36,7 +30,7 @@ function ProfilePage() {
         }
 
         loadUserInfo();
-    }, [accessToken]);
+    }, []);
 
     function handleChange(event) {
         setUserInfo({
@@ -87,13 +81,7 @@ function ProfilePage() {
             if (currentImageFile) {
                 formData.append('image', currentImageFile, currentImageFile.name);
             }
-            let response = await fetch('http://127.0.0.1:8000/api/v1/auth/profile/', {
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken
-                },
-                body: formData
-            });
+            let response = await changeUserProfile(formData);
             if (response.status === 200) {
                 alert('Данные успешно обновлены');
                 setUsername(userInfo.username)

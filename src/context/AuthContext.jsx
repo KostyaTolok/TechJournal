@@ -13,11 +13,12 @@ export function AuthContextProvider({children}) {
     const [refreshToken, setRefreshToken] = useState(() => cookies.refresh ?? null);
     const [user, setUser] = useState(() => cookies.access ? jwtDecode(cookies.access) : null);
     let [loading, setLoading] = useState(true);
+    const url = "https://tech-journal-app.herokuapp.com/api/v1/auth";
 
     const navigate = useNavigate();
 
     async function loginUser(username, password) {
-        return fetch('http://127.0.0.1:8000/api/v1/auth/token/', {
+        return fetch(`${url}/token/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,7 +31,7 @@ export function AuthContextProvider({children}) {
     }
 
     async function registerUser(username, email, password) {
-        return fetch('http://127.0.0.1:8000/api/v1/auth/register/', {
+        return fetch(`${url}/register/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -54,7 +55,7 @@ export function AuthContextProvider({children}) {
     }
 
     async function refreshTokens() {
-        let response = await fetch('http://127.0.0.1:8000/api/v1/auth/token/refresh/', {
+        let response = await fetch(`${url}/token/refresh/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -82,6 +83,26 @@ export function AuthContextProvider({children}) {
         }
         setCookie('access', access, {expires: new Date(jwtDecode(access).exp * 1000), sameSite: true});
         setCookie('refresh', refresh, {expires: new Date(jwtDecode(refresh).exp * 1000), sameSite: true});
+    }
+
+    async function getUserProfile() {
+        return await fetch(`${url}/profile/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            }
+        });
+    }
+
+    async function changeUserProfile(data) {
+        return await fetch(`${url}/profile/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            },
+            body: data
+        });
     }
 
     useEffect(() => {
@@ -113,6 +134,8 @@ export function AuthContextProvider({children}) {
         logoutUser: logoutUser,
         accessToken: accessToken,
         setTokens: setTokens,
+        getUserProfile: getUserProfile,
+        changeUserProfile: changeUserProfile,
     }
 
     return (

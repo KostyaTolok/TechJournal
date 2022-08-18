@@ -1,7 +1,10 @@
 export default class UsersApi {
+    constructor() {
+        this.url = "https://tech-journal-app.herokuapp.com/api/v1/users";
+    }
 
     async getUsers(accessToken) {
-        return fetch("http://127.0.0.1:8000/api/v1/users/list", {
+        return fetch(`${this.url}/list`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -11,7 +14,7 @@ export default class UsersApi {
     }
 
     async getUser(id, accessToken) {
-        return fetch(`http://127.0.0.1:8000/api/v1/users/detail/${id}`, {
+        return fetch(`${this.url}/detail/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,7 +24,7 @@ export default class UsersApi {
     }
 
     async changeUserStatus(id, accessToken) {
-        return fetch(`http://127.0.0.1:8000/api/v1/users/change-status/${id}`, {
+        return fetch(`${this.url}/change-status/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
