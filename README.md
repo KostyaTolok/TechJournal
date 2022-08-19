@@ -84,7 +84,7 @@ user accounts.
 
   **1. Install Docker and Docker compose**
   
-  **2. Download latest docker compose file and put it in a separate directory**
+  **2. Download the latest docker compose file and put it in a separate directory**
   
   **3. Create .env file and set these variables: DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, SUPER_USERNAME, SUPERUSER_EMAIL, SUPERUSER_PASSWORD**
   
