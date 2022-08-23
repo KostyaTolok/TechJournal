@@ -6,6 +6,7 @@ from rest_framework import generics
 from rest_framework_simplejwt.views import TokenObtainPairView
 from jwt_auth.serializers import CustomTokenObtainPairSerializer, RegisterSerializer, ProfileSerializer
 from users.models import UserProfile, User
+from jwt_auth.tasks import send_greetings_email_task
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -28,6 +29,7 @@ class Profile(APIView):
         user = request.user
         user_profile = UserProfile.objects.filter(user=user).first()
         serializer = ProfileSerializer(user_profile, context={'request': request})
+        send_greetings_email_task.delay(user.email, user.username)
         return Response(serializer.data)
 
     def put(self, request):
