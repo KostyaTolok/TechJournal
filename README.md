@@ -13,10 +13,6 @@ The backend consists of the following applications: [news](news/), [categories](
 
 A Docker compose file was developed for the application, which allows you to run all three main components of the application in separate containers.
 
-## Install with Docker compose
-
-  **1. Install Docker and Docker compose**
-
 ## Main page
 
 When you enter the site, the main page opens with a list of all news and a list of categories.
@@ -83,3 +79,17 @@ The user edit page allows the administrator to view user information and block
 user accounts.
 
 ![Users](screenshots/admin-user.jpg)
+
+## Install with Docker compose
+
+  **1. Install Docker and Docker compose**
+  
+  **2. Download the latest docker compose file and put it in a separate directory**
+  
+  **3. Create .env file and set these variables: DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, SUPER_USERNAME, SUPERUSER_EMAIL, SUPERUSER_PASSWORD**
+  
+  **4. Run this command in terminal**
+  ```
+  docker compose up
+  ```
+  **5. Visit localhost:3000 to see the result**
