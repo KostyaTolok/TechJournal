@@ -13,7 +13,7 @@ export function AuthContextProvider({children}) {
     const [refreshToken, setRefreshToken] = useState(() => cookies.refresh ?? null);
     const [user, setUser] = useState(() => cookies.access ? jwtDecode(cookies.access) : null);
     let [loading, setLoading] = useState(true);
-    const url = "https://tech-journal-app.herokuapp.com/api/v1/auth";
+    const url = "http://localhost:8000/api/v1/auth";
 
     const navigate = useNavigate();
 

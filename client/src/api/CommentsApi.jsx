@@ -1,7 +1,7 @@
 export default class CommentsApi {
 
     constructor() {
-        this.url = "https://tech-journal-app.herokuapp.com/api/v1/comments";
+        this.url = "http://localhost:8000/api/v1/comments";
     }
 
     async getComments(newsItemId) {
