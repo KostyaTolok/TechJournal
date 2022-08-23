@@ -19,6 +19,7 @@ class RegisterUser(APIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        send_greetings_email_task.delay(request.data.get("email"), request.data.get("username"))
         return Response({'message': 'User registered'})
 
 
@@ -29,7 +30,6 @@ class Profile(APIView):
         user = request.user
         user_profile = UserProfile.objects.filter(user=user).first()
         serializer = ProfileSerializer(user_profile, context={'request': request})
-        send_greetings_email_task.delay(user.email, user.username)
         return Response(serializer.data)
 
     def put(self, request):

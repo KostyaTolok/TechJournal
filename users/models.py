@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+
 class UserManager(BaseUserManager):
 
     def create_user(self, email, username, password):
@@ -28,7 +29,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    email = models.EmailField(verbose_name="Email пользователя", max_length=40)
+    email = models.EmailField(verbose_name="Email пользователя", max_length=40, unique=True)
     username = models.CharField(verbose_name="Имя пользователя", max_length=40, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

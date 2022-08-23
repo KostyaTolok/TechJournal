@@ -13,6 +13,7 @@ function ProfilePage() {
     });
     const [errors, setErrors] = useState([]);
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [currentImage, setCurrentImage] = useState('');
     const [currentImageFile, setCurrentImageFile] = useState(null);
 
@@ -29,6 +30,7 @@ function ProfilePage() {
             if (response.status === 200) {
                 setUserInfo({username: data.user.username, email: data.user.email});
                 setUsername(data.user.username)
+                setEmail(data.user.email)
                 setCurrentImage(data.image);
             } else {
                 console.log(data.detail);
@@ -83,7 +85,9 @@ function ProfilePage() {
             if (userInfo.username !== username) {
                 formData.append('user.username', userInfo.username);
             }
-            formData.append('user.email', userInfo.email);
+            if (userInfo.email !== email) {
+                formData.append('user.email', userInfo.email);
+            }
             if (currentImageFile) {
                 formData.append('image', currentImageFile, currentImageFile.name);
             }
@@ -97,6 +101,7 @@ function ProfilePage() {
             if (response.status === 200) {
                 alert('Данные успешно обновлены');
                 setUsername(userInfo.username)
+                setEmail(userInfo.email)
             } else {
                 setErrors(["Ошибка при обновлении профиля"]);
             }
