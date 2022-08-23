@@ -1,7 +1,11 @@
 export default class NewsItemsApi {
 
+    constructor() {
+        this.url = "https://tech-journal-app.herokuapp.com/api/v1/news"
+    }
+
     async getNewsItems(category = null) {
-        return fetch(`http://127.0.0.1:8000/api/v1/news/list${category ? "?category=" + category : ''}`,
+        return fetch(`${this.url}/list${category ? "?category=" + category : ''}`,
             {
                 method: 'GET',
                 headers: {
@@ -11,7 +15,7 @@ export default class NewsItemsApi {
     }
 
     async getNewsItem(id) {
-        return fetch(`http://127.0.0.1:8000/api/v1/news/detail/${id}`, {
+        return fetch(`${this.url}/detail/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -20,7 +24,7 @@ export default class NewsItemsApi {
     }
 
     async updateNewsItem(id, data, accessToken) {
-        return fetch(`http://127.0.0.1:8000/api/v1/news/update/${id}`, {
+        return fetch(`${this.url}/update/${id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': 'Bearer ' + accessToken
@@ -30,7 +34,7 @@ export default class NewsItemsApi {
     }
 
     async createNewsItem(data, accessToken) {
-        return fetch(`http://127.0.0.1:8000/api/v1/news/create`, {
+        return fetch(`${this.url}/create`, {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + accessToken
@@ -40,7 +44,7 @@ export default class NewsItemsApi {
     }
 
     async deleteNewsItem(id, accessToken) {
-        return fetch(`http://127.0.0.1:8000/api/v1/news/delete/${id}`, {
+        return fetch(`${this.url}/delete/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': 'Bearer ' + accessToken,

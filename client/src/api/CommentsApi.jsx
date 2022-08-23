@@ -1,7 +1,11 @@
 export default class CommentsApi {
 
+    constructor() {
+        this.url = "https://tech-journal-app.herokuapp.com/api/v1/comments";
+    }
+
     async getComments(newsItemId) {
-        return await fetch(`http://127.0.0.1:8000/api/v1/comments/list${newsItemId ? "?news_item=" + newsItemId : ''}`,
+        return await fetch(`${this.url}/list${newsItemId ? "?news_item=" + newsItemId : ''}`,
             {
                 method: 'GET',
                 headers: {
@@ -11,7 +15,7 @@ export default class CommentsApi {
     }
 
     async addComment(data, accessToken) {
-        return await fetch(`http://127.0.0.1:8000/api/v1/comments/create`,
+        return await fetch(`${this.url}/create`,
             {
                 method: 'POST',
                 headers: {
@@ -23,7 +27,7 @@ export default class CommentsApi {
     }
 
     async deleteComment(id, accessToken) {
-        return await fetch(`http://127.0.0.1:8000/api/v1/comments/${id}`,
+        return await fetch(`${this.url}/${id}`,
             {
                 method: 'DELETE',
                 headers: {
