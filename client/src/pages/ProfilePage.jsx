@@ -133,7 +133,7 @@ function ProfilePage() {
                 </div>
             </div>
             <div className="d-flex justify-content-end align-end mt-2">
-                <a onClick={logoutUser} href="/src/pages"><img className="logout-icon" src={logoutIcon} alt="Logout"/></a>
+                <a onClick={logoutUser} href="/client/src/pages"><img className="logout-icon" src={logoutIcon} alt="Logout"/></a>
             </div>
         </div>
     );
