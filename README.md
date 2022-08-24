@@ -23,7 +23,7 @@ When you click on a category in the list of all news, the news belonging to this
 
 ![Category](screenshots/category.jpg)
 
-## Просмотр новости
+## View news
 
 When you click on the news, the page for viewing the news is displayed. It displays the image of the news, the text of the news and the list of comments
 under the news. You must be logged in to leave a comment.
